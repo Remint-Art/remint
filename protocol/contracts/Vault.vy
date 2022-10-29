@@ -17,12 +17,19 @@ interface ERC721Receiver:
             _data: Bytes[1024]
         ) -> bytes4: view
 
+interface ClaimVault:
+    def updateClaims(_claims: DynArray[Claim, 100]): nonpayable
+
 
 # Structs
 
 struct NFT:
     contract: address
     id: uint256
+
+struct Claim:
+    wallet: address
+    amount: uint256
 
 
 # Events
@@ -64,6 +71,7 @@ event ApprovalForAll:
 
 # Variables
 
+initialised: public(bool)
 nfts: public(DynArray[NFT, 2**25])
 nftsByWallet: public(HashMap[address, DynArray[NFT, 2**25]])
 wallets: public(DynArray[address, 2*25])
@@ -77,10 +85,10 @@ priceChange: public(uint256)
 stepDuration: public(uint256)
 saleEnded: public(bool)
 tokenId: public(uint256)
-minNfts: public(uint256)
 maxNfts: public(uint256)
 maxNftsPerUser: public(uint256)
 burnerVault: public(address)
+claimVault: public(address)
 
 # @dev Mapping from NFT ID to the address that owns it.
 idToOwner: HashMap[uint256, address]
@@ -112,18 +120,19 @@ SUPPORTED_INTERFACES: constant(bytes4[2]) = [
 
 @external
 def __init__(
-    _minNfts: uint256,
     _maxNfts: uint256,
     _maxNftsPerUser: uint256,
     _initialPrice: uint256,
     _saleDuration: uint256,
     _priceChange: uint256,
-    _burnerVault: address
+    _burnerVault: address,
+    _claimVault: address
 ):
     self.minter = msg.sender
     self.baseURL = "http://bafybeibhe7kvr53lwbrnexxn7zzpqvikgvkn3nkwq4if4lkbokxrgwn2iu.ipfs.localhost:8080/?filename="
 
-    self.minNfts = _minNfts
+    self.initialised = True
+
     self.maxNfts = _maxNfts
     self.maxNftsPerUser = _maxNftsPerUser
     self.initialPrice = _initialPrice
@@ -131,6 +140,35 @@ def __init__(
     self.priceChange = _priceChange
     self.stepDuration = _saleDuration * _initialPrice / _priceChange
     self.burnerVault = _burnerVault
+    self.claimVault = _claimVault
+
+
+@external
+def initialise(
+    _minter: address,
+    _maxNfts: uint256,
+    _maxNftsPerUser: uint256,
+    _initialPrice: uint256,
+    _saleDuration: uint256,
+    _priceChange: uint256,
+    _burnerVault: address,
+    _claimVault: address
+):
+    assert not self.initialised, "contract already initialised"
+
+    self.minter = _minter
+    self.baseURL = "http://bafybeibhe7kvr53lwbrnexxn7zzpqvikgvkn3nkwq4if4lkbokxrgwn2iu.ipfs.localhost:8080/?filename="
+
+    self.initialised = True
+
+    self.maxNfts = _maxNfts
+    self.maxNftsPerUser = _maxNftsPerUser
+    self.initialPrice = _initialPrice
+    self.saleDuration = _saleDuration
+    self.priceChange = _priceChange
+    self.stepDuration = _saleDuration * _initialPrice / _priceChange
+    self.burnerVault = _burnerVault
+    self.claimVault = _claimVault
 
 
 @external
@@ -175,24 +213,44 @@ def _currentPrice() -> uint256:
 
 @payable
 @external
-def buy(): 
+def buy():
     assert msg.value == self._currentPrice(), "msg.value != than curr price"
 
     self.saleEnded = True
     self.salePrice = msg.value
 
+    i: uint256 = 0
+    claims: DynArray[Claim, 100] = empty(DynArray[Claim, 100])
+    for wallet in self.wallets:
+        share: uint256 = self.salePrice * len(self.nftsByWallet[wallet]) / len(self.nfts)
+        claims.append(Claim({
+            wallet: wallet,
+            amount: share
+        }))
+        i += 1
+
+        if i == 100:
+            ClaimVault(self.claimVault).updateClaims(claims)
+            claims = empty(DynArray[Claim, 100])
+            i = 0
+    
+    if len(claims) > 0:
+        ClaimVault(self.claimVault).updateClaims(claims)
+    
+    send(self.claimVault, msg.value)
+
     ERC721(self).transferFrom(self, msg.sender, self.tokenId)
 
 
-@external
-def claim():
-    assert msg.sender in self.wallets, "sender is not part of the vault"
-    assert self.saleEnded, "sale has not happened yet"
+# @external
+# def claim():
+#     assert msg.sender in self.wallets, "sender is not part of the vault"
+#     assert self.saleEnded, "sale has not happened yet"
 
-    share: uint256 = self.salePrice * len(self.nftsByWallet[msg.sender]) / len(self.nfts)
-    assert share > 0, "sender has no value to claim"
+#     share: uint256 = self.salePrice * len(self.nftsByWallet[msg.sender]) / len(self.nfts)
+#     assert share > 0, "sender has no value to claim"
 
-    send(msg.sender, share)
+#     send(msg.sender, share)
 
 
 
@@ -468,7 +526,7 @@ def mint(_to: address, _tokenId: uint256) -> bool:
     
     assert _to == self, "mint receptor is not vault"
 
-    assert len(self.nfts) >= self.minNfts, "not enough NFTs deposited"
+    assert len(self.nfts) == self.maxNfts, "not enough NFTs deposited"
 
     # Add NFT. Throws if `_tokenId` is owned by someone
     self._addTokenTo(_to, _tokenId)
