@@ -65,8 +65,8 @@ def deployVault() -> address:
         msg.sender,
         60,
         15,
-        as_wei_value(10, "ether"),
-        86400,
+        as_wei_value(20, "ether"),
+        3 * 86400,
         as_wei_value(1, "ether"),
         self.burnerVault,
         self.claimVault

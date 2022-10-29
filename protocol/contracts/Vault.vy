@@ -172,7 +172,7 @@ def initialise(
 
 
 @external
-def deposit(_nfts: DynArray[NFT, 5]) -> bytes4:
+def deposit(_nfts: DynArray[NFT, 15]) -> bytes4:
     assert len(self.nfts) + len(_nfts) <= self.maxNfts, "max amount of NFTs deposited"
     assert len(self.nftsByWallet[msg.sender]) + len(_nfts) <= self.maxNftsPerUser, "amount of NFTs per user reached"
     
@@ -241,6 +241,11 @@ def buy():
 
     ERC721(self).transferFrom(self, msg.sender, self.tokenId)
 
+
+@view
+@external
+def missingToSale() -> uint256:
+    return self.maxNfts - len(self.nfts)
 
 
 # @dev Implementation of ERC-721 non-fungible token standard.
