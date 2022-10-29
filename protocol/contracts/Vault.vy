@@ -242,17 +242,6 @@ def buy():
     ERC721(self).transferFrom(self, msg.sender, self.tokenId)
 
 
-# @external
-# def claim():
-#     assert msg.sender in self.wallets, "sender is not part of the vault"
-#     assert self.saleEnded, "sale has not happened yet"
-
-#     share: uint256 = self.salePrice * len(self.nftsByWallet[msg.sender]) / len(self.nfts)
-#     assert share > 0, "sender has no value to claim"
-
-#     send(msg.sender, share)
-
-
 
 # @dev Implementation of ERC-721 non-fungible token standard.
 # @author Ryuya Nakamura (@nrryuya)
