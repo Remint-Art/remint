@@ -138,7 +138,7 @@ def __init__(
     self.initialPrice = _initialPrice
     self.saleDuration = _saleDuration
     self.priceChange = _priceChange
-    self.stepDuration = _saleDuration * _initialPrice / _priceChange
+    self.stepDuration = _saleDuration * _priceChange / _initialPrice
     self.burnerVault = _burnerVault
     self.claimVault = _claimVault
 
@@ -193,8 +193,8 @@ def deposit(_nfts: DynArray[NFT, 15]) -> bytes4:
 @view
 @external
 def currentPrice() -> uint256:
-    assert self.saleStarted, "sale has not started yet"
-    assert not self.saleEnded, "sale has already ended"
+    if not self.saleStarted or self.saleEnded:
+        return max_value(uint256)
 
     return self._currentPrice()
 
