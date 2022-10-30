@@ -15,12 +15,8 @@ import DoneIcon from '@mui/icons-material/Done';
 export const NftsContent = ({ cards }) => {
   const [cardsToShow, setCardsToShow] = useState([]);
 
-  console.log('🚀 ~ NftsContent ~ cardsToShow', cardsToShow);
-
   const [cardsToDeposit, setCardsToDeposit] = useState([]);
-  const { state, send } = useVaultData();
-
-  console.log('🚀 ~ NftsContent ~ state', state);
+  const {  send } = useVaultData();
 
   const parseNfts = (cards, contractAddress, tokenId) => {
     return cards.map((card) => {
@@ -42,47 +38,6 @@ export const NftsContent = ({ cards }) => {
     setCardsToShow(parseNfts(cardsToShow, contractAddress, tokenId));
   };
 
-  const removeCards = (cards) => {
-    const cardsToReturn2 = cards.reduce(
-      (acc, cur) => {
-        if (acc.includes(cur.contract) && acc.includes(cur.id)) {
-          const cardIndexToRemove = acc.findIndex(
-            (el) =>
-              el.contract.address === cur.contract && el.id.tokenId === cur.id
-          );
-          acc.slice(cardIndexToRemove);
-          return acc;
-        }
-
-        return acc;
-      },
-      [cardsToShow]
-    );
-
-    console.log('🚀 ~ removeCards ~ cardsToReturn2', cardsToReturn2);
-
-    const cardsToReturn = cardsToShow.filter((card) => {
-      console.log('🚀 ~ removeCards ~ cards', cards);
-      console.log('🚀 ~ cardsToReturn ~ card', card);
-      if (
-        !cards.includes(card.contract.address) &&
-        !cards.includes(card.id.tokenId)
-      ) {
-        console.log('inside');
-        return card;
-      }
-    });
-
-    console.log('🚀 ~ removeCards ~ cardsToReturn', cardsToReturn);
-
-    return cardsToReturn2;
-  };
-
-  // useEffect(() => {
-  //   if (state.status === 'Success') {
-  //     setCardsToShow(removeCards(cardsToDeposit));
-  //   }
-  // }, [state]);
 
   useEffect(() => {
     if (cards?.length > 0) {
@@ -99,7 +54,7 @@ export const NftsContent = ({ cards }) => {
   return (
     <div style={{ backgroundColor: '#000000' }}>
       <>
-        <div className='flex justify-center pt-10  text-6xl'>
+        <div className='flex justify-center pt-10  text-6xl text-white'>
           <h1>Your Wallet</h1>
         </div>
         <div className='p-16'>

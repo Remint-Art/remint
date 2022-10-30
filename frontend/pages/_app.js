@@ -4,7 +4,6 @@ import {
   WagmiConfig,
   createClient,
   configureChains,
-  defaultChains,
 } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { getDefaultProvider } from 'ethers';
@@ -13,7 +12,7 @@ import { useIsClient } from '../hooks/useIsClient';
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { useEffect } from 'react';
-import { AlchemyProvider, JsonRpcProvider } from '@ethersproject/providers';
+import {  JsonRpcProvider } from '@ethersproject/providers';
 
 const remintChain = {
   id: 155,
@@ -25,7 +24,7 @@ const remintChain = {
     symbol: 'ETH',
   },
   rpcUrls: {
-    default: 'http://10.1.0.153:8545',
+    default: 'http://0.0.0.0:8545',
   },
   testnet: true,
 };
