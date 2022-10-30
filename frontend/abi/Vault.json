@@ -1,0 +1,369 @@
+[
+  {
+    "name": "Transfer",
+    "inputs": [
+      { "name": "sender", "type": "address", "indexed": true },
+      { "name": "receiver", "type": "address", "indexed": true },
+      { "name": "tokenId", "type": "uint256", "indexed": true }
+    ],
+    "anonymous": false,
+    "type": "event"
+  },
+  {
+    "name": "Approval",
+    "inputs": [
+      { "name": "owner", "type": "address", "indexed": true },
+      { "name": "approved", "type": "address", "indexed": true },
+      { "name": "tokenId", "type": "uint256", "indexed": true }
+    ],
+    "anonymous": false,
+    "type": "event"
+  },
+  {
+    "name": "ApprovalForAll",
+    "inputs": [
+      { "name": "owner", "type": "address", "indexed": true },
+      { "name": "operator", "type": "address", "indexed": true },
+      { "name": "approved", "type": "bool", "indexed": false }
+    ],
+    "anonymous": false,
+    "type": "event"
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "constructor",
+    "inputs": [
+      { "name": "_maxNfts", "type": "uint256" },
+      { "name": "_maxNftsPerUser", "type": "uint256" },
+      { "name": "_initialPrice", "type": "uint256" },
+      { "name": "_saleDuration", "type": "uint256" },
+      { "name": "_priceChange", "type": "uint256" },
+      { "name": "_burnerVault", "type": "address" },
+      { "name": "_claimVault", "type": "address" }
+    ],
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "initialise",
+    "inputs": [
+      { "name": "_minter", "type": "address" },
+      { "name": "_maxNfts", "type": "uint256" },
+      { "name": "_maxNftsPerUser", "type": "uint256" },
+      { "name": "_initialPrice", "type": "uint256" },
+      { "name": "_saleDuration", "type": "uint256" },
+      { "name": "_priceChange", "type": "uint256" },
+      { "name": "_burnerVault", "type": "address" },
+      { "name": "_claimVault", "type": "address" }
+    ],
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "deposit",
+    "inputs": [
+      {
+        "name": "_nfts",
+        "type": "tuple[]",
+        "components": [
+          { "name": "contract", "type": "address" },
+          { "name": "id", "type": "uint256" }
+        ]
+      }
+    ],
+    "outputs": [{ "name": "", "type": "bytes4" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "currentPrice",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "payable",
+    "type": "function",
+    "name": "buy",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "missingToSale",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "pure",
+    "type": "function",
+    "name": "supportsInterface",
+    "inputs": [{ "name": "interface_id", "type": "bytes4" }],
+    "outputs": [{ "name": "", "type": "bool" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "balanceOf",
+    "inputs": [{ "name": "_owner", "type": "address" }],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "ownerOf",
+    "inputs": [{ "name": "_tokenId", "type": "uint256" }],
+    "outputs": [{ "name": "", "type": "address" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getApproved",
+    "inputs": [{ "name": "_tokenId", "type": "uint256" }],
+    "outputs": [{ "name": "", "type": "address" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "isApprovedForAll",
+    "inputs": [
+      { "name": "_owner", "type": "address" },
+      { "name": "_operator", "type": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool" }]
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "transferFrom",
+    "inputs": [
+      { "name": "_from", "type": "address" },
+      { "name": "_to", "type": "address" },
+      { "name": "_tokenId", "type": "uint256" }
+    ],
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "safeTransferFrom",
+    "inputs": [
+      { "name": "_from", "type": "address" },
+      { "name": "_to", "type": "address" },
+      { "name": "_tokenId", "type": "uint256" }
+    ],
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "safeTransferFrom",
+    "inputs": [
+      { "name": "_from", "type": "address" },
+      { "name": "_to", "type": "address" },
+      { "name": "_tokenId", "type": "uint256" },
+      { "name": "_data", "type": "bytes" }
+    ],
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "approve",
+    "inputs": [
+      { "name": "_approved", "type": "address" },
+      { "name": "_tokenId", "type": "uint256" }
+    ],
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "setApprovalForAll",
+    "inputs": [
+      { "name": "_operator", "type": "address" },
+      { "name": "_approved", "type": "bool" }
+    ],
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "mint",
+    "inputs": [
+      { "name": "_to", "type": "address" },
+      { "name": "_tokenId", "type": "uint256" }
+    ],
+    "outputs": [{ "name": "", "type": "bool" }]
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "burn",
+    "inputs": [{ "name": "_tokenId", "type": "uint256" }],
+    "outputs": []
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "tokenURL",
+    "inputs": [{ "name": "tokenId", "type": "uint256" }],
+    "outputs": [{ "name": "", "type": "string" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "initialised",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "nfts",
+    "inputs": [{ "name": "arg0", "type": "uint256" }],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "components": [
+          { "name": "contract", "type": "address" },
+          { "name": "id", "type": "uint256" }
+        ]
+      }
+    ]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "nftsByWallet",
+    "inputs": [
+      { "name": "arg0", "type": "address" },
+      { "name": "arg1", "type": "uint256" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "components": [
+          { "name": "contract", "type": "address" },
+          { "name": "id", "type": "uint256" }
+        ]
+      }
+    ]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "wallets",
+    "inputs": [{ "name": "arg0", "type": "uint256" }],
+    "outputs": [{ "name": "", "type": "address" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "nWallets",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "salePrice",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "saleStarted",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "saleStartTime",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "initialPrice",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "saleDuration",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "priceChange",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "stepDuration",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "saleEnded",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "tokenId",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "maxNfts",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "maxNftsPerUser",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "burnerVault",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "claimVault",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address" }]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "totalSupply",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  }
+]
