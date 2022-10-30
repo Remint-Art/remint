@@ -14,4 +14,4 @@ There are no royalties and no platform fees. The sale amount is shared entirely 
 ![Remint flowchart](flowchart.png)
 
 ## Vision (Figma)
-The vision for `remint` can be seen in the following [Figma](https://www.figma.com/file/pfed96kU08o69Umj5nE0j4/REMINT?node-id=0%3A1).
+The vision for `remint` can be seen in the following [Figma](https://www.figma.com/file/X0BGv1o8oej1CFwGVhtC2P/REMINT_screens?node-id=0%3A1).
