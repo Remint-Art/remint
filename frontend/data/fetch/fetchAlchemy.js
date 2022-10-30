@@ -1,4 +1,4 @@
-const ALCHEMY_KEY = '';
+const ALCHEMY_KEY = 'rV3SqXfVlOe9rndW5yUGHeCW3v_3OgwE';
 const ALCHEMY_URL = 'https://eth-mainnet.g.alchemy.com/nft/v2/';
 const options = { method: 'GET', headers: { accept: 'application/json' } };
 
